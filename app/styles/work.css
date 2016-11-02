@@ -1,0 +1,19 @@
+section {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+.timer {
+    font-size: 3rem;
+    font-family: 'Open Sans', bold;
+    margin-top: -50px;
+    margin-left: -50px;
+}
+
+button {
+    margin: auto;
+    color: rgb(255,255,255);
+    font-size: 2rem;
+    margin-left: -50px;
+    background-color: #b2bb04;
+}
