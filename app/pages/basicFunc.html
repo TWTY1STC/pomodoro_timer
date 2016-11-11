@@ -1,0 +1,70 @@
+<html lang="en" ng-app="pomodoro">
+<head>
+    <meta charset="UTF-8">
+    <title>Pomodoro Timer</title>
+</head>
+<body>  
+  <div ng-controller='myCtrl'>
+    <b>{{time }}</b>
+    <br/>
+    <br/>
+    <span id="message"></span>
+    <button ng-click='start()'>Start</button>
+    <button ng-click='stop()'> Stop </button>
+    <button ng-click='break()'>Break</button>
+  </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script>
+       var app = angular.module('pomodoro',[]);
+       app.controller('myCtrl', ['$scope', '$interval', 
+             function($scope, $interval){
+              // $scope.states = [{'work': "00:25:00"}, {'break': "00:05:00"}, {"rest": "00:30:00"}];
+               $scope.time = 0;
+               var counter = 0;
+               var i= 0;               
+               
+               $scope.start = function(){
+                 document.getElementById('message').style.display = 'none';
+                 if(counter){$scope.stop()};
+                 i =3;                 
+                 counter = $interval(function(){
+                   i--;
+                   if(i< 1){ $scope.stop();
+                            document.getElementById('message').innerHTML = '<h2>Work Session Complete</h2>';
+                            document.getElementById('message').style.display = 'initial';}
+                   	var mins = Math.floor(i/60);
+               			var secs = Math.floor(i%60);
+                     if(mins < 10){mins = "0" + mins};
+                     if(secs <10){secs = "0" + secs};
+                   $scope.time = mins + ":" + secs;
+                 },1000)
+               }               
+               
+               $scope.stop = function(){  
+                 $interval.cancel(counter);
+                 document.getElementById('message').style.display = 'none';
+                 console.log($scope.time);
+                 $scope.time= 0
+             			}
+               
+               $scope.break = function(){
+                 document.getElementById('message').style.display = 'none';
+                 $scope.stop();
+                 i = 3;
+                 counter = $interval(function(){
+                 i--;
+                   if(i< 1){ 
+                     $scope.stop();
+                     document.getElementById('message').innerHTML = '<h2>Break Over, begin new work session.</h2>'
+                     document.getElementById('message').style.display = 'initial';}
+                   var mins = Math.floor(i/60);
+               			var secs = Math.floor(i%60);
+                     if(mins < 10){mins = "0" + mins};
+                     if(secs <10){secs = "0" + secs};
+                 $scope.time = mins + ":" + secs;
+                 },1000)
+               }
+             }]);          
+    </script>
+</body>
+</html>
